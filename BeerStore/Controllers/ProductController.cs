@@ -22,6 +22,7 @@ namespace BeerStore.Controllers
                 ID = 1,
                 Name = "California IPA",
                 Description = "IPA with a southern California soul",
+                Image="/images/beer4.jpg",
                 Price = 5m
 
             });
@@ -31,6 +32,7 @@ namespace BeerStore.Controllers
                 ID = 2,
                 Name = "Session IPA",
                 Description = "A low-ABV IPA for daytime sipping",
+                Image = "/images/beer4.jpg",
                 Price = 4m
             });
 

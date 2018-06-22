@@ -13,7 +13,23 @@
 </nav>
 
 <div class="row">
-    
+    <div class="col-sm-12 col-md-8">
+        <h3> @Model.Name</h3>
+        <h3>@Model.Description</h3>
+        <H3> @(Model.Price.HasValue ? Model.Price.Value.ToString("C") : "No price available")</H3>
+        <form method="post">
+            <input asp-for="ID" type="hidden" />
+            <select name="Quantity">
+                @for (int i = 0; i < 20; i++)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+            <input type="submit" class="btn" value="add to cart" />
+
+
+        </form>
+    </div>
 
 </div>
 
