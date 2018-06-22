@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using BeerStore.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace BeerStore
 {
@@ -21,6 +25,9 @@ namespace BeerStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityDbContext>()
+                .AddDefaultTokenProviders();
             services.AddMvc();
         }
 
@@ -37,6 +44,7 @@ namespace BeerStore
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseAuthentication();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
