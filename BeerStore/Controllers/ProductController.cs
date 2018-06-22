@@ -16,15 +16,43 @@ namespace BeerStore.Controllers
         public ProductController()
         {
             //for now use list to mock up data
+            _products = new List<Product>();
+            _products.Add(new Product
+            {
+                ID = 1,
+                Name = "California IPA",
+                Description = "IPA with a southern California soul",
+                Price = 5m
 
+            });
+
+            _products.Add(new Product
+            {
+                ID = 2,
+                Name = "Session IPA",
+                Description = "A low-ABV IPA for daytime sipping",
+                Price = 4m
+            });
 
         }
 
 
+        //public method called details
+        public IActionResult Details(int? id)
+        {
+            if (id.HasValue)
+            {   
+
+                Product p = _products.Single(x => x.ID == id.Value);
+                return View(p);
+            }
+            return NotFound();
+
+        }
 
         public IActionResult Index()
         {
-            return View();
+            return View(_products);
         }
     }
 }
