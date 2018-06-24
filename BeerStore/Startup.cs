@@ -25,10 +25,13 @@ namespace BeerStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<IdentityDbContext>(opt => opt.UseInMemoryDatabase("Identities"));
+            //creating BeerStoreConnectionString
+            string BeerStoreConnectionString = Configuration.GetConnectionString("BeerStore");
+            //telling our DbContext to use sqlserver and our connection string
+            services.AddDbContext<BeerStoreDbContext>(opt => opt.UseSqlServer(BeerStoreConnectionString));
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityDbContext>()
+            services.AddIdentity<BeerStoreUser, IdentityRole>()
+                .AddEntityFrameworkStores<BeerStoreDbContext>()
                 .AddDefaultTokenProviders();
             services.AddMvc();
         }

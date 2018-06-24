@@ -5,17 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BeerStore.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace BeerStore.Controllers
 {
     public class AccountController : Controller
     {
 
-        SignInManager<IdentityUser> _signInManager;
+        SignInManager<BeerStoreUser> _signInManager;
 
 
         //this is a constructor
-        public AccountController(SignInManager<IdentityUser> signInManager)
+        public AccountController(SignInManager<BeerStoreUser> signInManager)
         {
             _signInManager = signInManager;
         }
@@ -38,8 +41,14 @@ namespace BeerStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                //creating a new user in the identity framework
-                IdentityUser newUser = new IdentityUser(model.UserName);
+                BeerStoreUser newUser = new BeerStoreUser
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    PhoneNumber = model.PhoneNumber
+                };
 
                 IdentityResult creationResult = _signInManager.UserManager.CreateAsync(newUser).Result;
 
@@ -89,7 +98,7 @@ namespace BeerStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityUser existingUser = _signInManager.UserManager.FindByNameAsync(model.UserName).Result;
+                BeerStoreUser existingUser = _signInManager.UserManager.FindByNameAsync(model.UserName).Result;
                 //if user already exists
                 if(existingUser != null)
                 {   
