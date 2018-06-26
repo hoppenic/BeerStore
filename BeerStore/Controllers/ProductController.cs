@@ -11,50 +11,35 @@ namespace BeerStore.Controllers
     {
 
         //this is my list called _products, using the Product Class
-        private List<Product> _products;
+        private readonly BeerStoreDbContext _beerStoreDbContext;
 
-        public ProductController()
+        public ProductController(BeerStoreDbContext beerStoreDbContext)
         {
-            //for now use list to mock up data
-            _products = new List<Product>();
-            _products.Add(new Product
-            {
-                ID = 1,
-                Name = "California IPA",
-                Description = "IPA with a southern California soul",
-                Image="/images/beer4.jpg",
-                Price = 5m
-
-            });
-
-            _products.Add(new Product
-            {
-                ID = 2,
-                Name = "Session IPA",
-                Description = "A low-ABV IPA for daytime sipping",
-                Image = "/images/beer4.jpg",
-                Price = 4m
-            });
+            _beerStoreDbContext = beerStoreDbContext;
 
         }
+
+        public IActionResult Index()
+        {
+            List<Product> products = _beerStoreDbContext.Products.ToList();
+            return View(products);
+        }
+
 
 
         //public method called details
         public IActionResult Details(int? id)
         {
             if (id.HasValue)
-            {   
+            {
 
-                Product p = _products.Single(x => x.ID == id.Value);
+                Product p = _beerStoreDbContext.Products.Find(id.Value);
                 return View(p);
             }
             return NotFound();
 
         }
 
-        public IActionResult Index()
-        {
-            return View(_products);
-        }
+      
     }
 }

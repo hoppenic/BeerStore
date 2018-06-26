@@ -107,30 +107,31 @@ namespace BeerStore.Controllers
                 fs.Close();
             }
 
-
-
+            product.Image = "/images/" + imageFile.FileName;
 
             if (ModelState.IsValid)
+            {
+                try
                 {
-                    try
-                    {
-                        _context.Update(product);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!ProductExists(product.ID))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                    return RedirectToAction(nameof(Index));
+                    _context.Update(product);
+                    await _context.SaveChangesAsync();
                 }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductExists(product.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
             return View(product);
+
+           
         }
 
         // GET: ProductsAdmin/Delete/5
