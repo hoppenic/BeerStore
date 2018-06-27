@@ -37,7 +37,7 @@ namespace BeerStore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, BeerStoreDbContext db)
         {
             if (env.IsDevelopment())
             {
@@ -51,6 +51,9 @@ namespace BeerStore
 
             app.UseAuthentication();
             app.UseStaticFiles();
+
+            //seed the database if it's empty
+            DbInitializer.Initialize(db);
 
             app.UseMvc(routes =>
             {
